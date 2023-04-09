@@ -22,5 +22,8 @@ mongoose.connect(process.env.DB_URI)
 })
 
 //routes
-app.use( productRoutes)
+app.use( '/api',productRoutes);
+
+// Export the Express API
+module.exports = app;
 
