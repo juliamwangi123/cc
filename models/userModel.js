@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
 
 //static signup method
 
-userSchema.static.signUp = async function(email, password){
+userSchema.statics.signUp = async function(email, password){
     //check if the field are empty
     if( !email || !password){
         throw Errow("Field should not be empty");
@@ -59,7 +59,7 @@ userSchema.static.signUp = async function(email, password){
 };
 
 //static login method
-userSchema.static.login = async function (email, password){
+userSchema.statics.login = async function (email, password){
 
     //check empty fields
     if(!email || !password){ throw Error('Field should not be empty')};
@@ -71,7 +71,7 @@ userSchema.static.login = async function (email, password){
     if(!getUser){ throw Error('Email does not exist')}
 
     //if user exist match passowrd and the hashed password
-    const matchPassword = bcrypt.matchPassword(password , getUser.password);
+    const matchPassword = await  bcrypt.compare(password , getUser.password);
 
     if(!matchPassword){ throw Error('Wrong Password')};
 
