@@ -44,9 +44,8 @@ userSchema.static.signUp = async function(email, password){
         throw Error('Password not stong enough')
     }
 
-
     //check if the user exist
-    const userExist = await this.findOne(email);
+    const userExist = await this.findOne({email});
     if(userExist){ throw Error('User already exist')};
 
     //hash password
@@ -57,4 +56,26 @@ userSchema.static.signUp = async function(email, password){
     const newUser = await this.create({email, password: hashPassword });
 
     return newUser;
+};
+
+//static login method
+userSchema.static.login = async function (email, password){
+
+    //check empty fields
+    if(!email || !password){ throw Error('Field should not be empty')};
+
+    //get user if they exist
+    const getUser = await this.findOne({email});
+
+    //if email does not exist throw error
+    if(!getUser){ throw Error('Email does not exist')}
+
+    //if user exist match passowrd and the hashed password
+    const matchPassword = bcrypt.matchPassword(password , getUser.password);
+
+    if(!matchPassword){ throw Error('Wrong Password')};
+
+    return getUser;
 }
+
+module.export =mongoose.model('user', userSchema);
