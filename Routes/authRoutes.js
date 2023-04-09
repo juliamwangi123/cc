@@ -6,7 +6,7 @@ const router = Router()
 
 //auth routes 
 //signup
-router.post('/', signUpUser);
-router.post('/', loginUser);
+router.post('new/sigIn', signUpUser);
+router.post('new/login', loginUser);
 
 module.exports = router
