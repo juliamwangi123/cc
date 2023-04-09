@@ -1,8 +1,11 @@
 require('dotenv').config()
 const express = require('express');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const productRoutes = require('./Routes/products')
+//routes
+const productRoutes = require('./Routes/products');
+const authRoutes = require('./Routes/authRoutes');
+
 
 //intilalize app
 const app = express();
@@ -22,5 +25,5 @@ mongoose.connect(process.env.DB_URI)
 })
 
 //routes
-app.use( '/api',productRoutes);
-
+app.use(productRoutes);
+api.use(authRoutes);
