@@ -26,4 +26,4 @@ mongoose.connect(process.env.DB_URI)
 
 //routes
 app.use(productRoutes);
-api.use(authRoutes);
+app.use(authRoutes);
