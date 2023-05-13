@@ -23,13 +23,14 @@ const productSchema = new mongoose.Schema({
         // ref: 'Category',
         // required: true
       },
-      review:{
-        type: String,
-        // required: false
+      rating:{
+        rate: Number,
+        count:Number
+                // required: false
       },
-      images: {
+      image: {
         type: String,
-        // default: []
+        default: []
       },
       // quantity:{
       //   type:Number,
