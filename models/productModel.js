@@ -6,36 +6,36 @@ const Category = require('./categoryModel')
 
 const productSchema = new mongoose.Schema({
     title :{
-        // required:false,
+        required:true,
         type:String
     },
     price: {
       type: Number,
-      // required: false
+      required: true
     },
     description: {
         type: String,
-        // required: fals
+        required: true
       },
      
       category: {
-        type: String
-        // ref: 'Category',
-        // required: true
+        type: String,
+        ref: 'Category',
+        required: true
       },
-      // review:{
-      //   type: String,
-      //   required: false
-      // },
+      review:{
+        type: String,
+        required: false
+      },
       images: {
-        type: String
-        // default: []
+        type: String,
+        default: []
       },
-      // quantity:{
-      //   type:Number,
-      //   default: 1,
-      //   required:true
-      // }
+      quantity:{
+        type:Number,
+        default: 1,
+        required:true
+      }
 })
 
 module.exports = mongoose.model('product', productSchema)
