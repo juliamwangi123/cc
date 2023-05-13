@@ -2,10 +2,10 @@ require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require ('cors')
-
 //routes
 const productRoutes = require('./Routes/products');
 const authRoutes = require('./Routes/authRoutes');
+const lipaNaMpesa = require('./Routes/lipaNaMpesa')
 
 
 //intilalize app
@@ -27,5 +27,7 @@ mongoose.connect(process.env.DB_URI)
 })
 
 //routes
-app.use('/products/', productRoutes);
+app.use(productRoutes);
 app.use(authRoutes);
+app.use(lipaNaMpesa)
+
