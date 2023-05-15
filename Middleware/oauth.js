@@ -5,6 +5,15 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const User = require('../models/userModel')
 
+
+const jwt = require('jsonwebtoken');
+
+//generate token
+const generateToken = (id)=>{
+    //use sign method 2 argument paload and secrect
+    return jwt.sign({id},process.env.SECRET, {expiresIn: '2d'});
+};
+
 // Configure Passport.js to use GoogleStrategy
 passport.use(
     new GoogleStrategy(
@@ -26,9 +35,11 @@ passport.use(
               userName: profile.displayName,
             });
           }
-  
+          
+          const token = generateToken(user._id);
+
           // Call the "done" function to proceed with authentication
-          done(null, user);
+          done(null,{ user, token });
         } catch (error) {
           done(error);
         }
