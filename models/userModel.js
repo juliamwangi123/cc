@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
 userSchema.statics.signUp = async function(email, password){
     //check if the field are empty
     if( !email || !password){
-        throw Errow("Field should not be empty");
+        throw Error("Field should not be empty");
     }
 
     //check if email is unique
