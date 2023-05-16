@@ -9,7 +9,7 @@ router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 
 // Google authentication callback route
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: 'http://localhost:3000/signup' }), (req, res) => {
   // Redirect the user to the homepage or any other route
-  res.redirect('http://localhost:3000');
+  res.redirect('/');
 });
 
 module.exports = router;
