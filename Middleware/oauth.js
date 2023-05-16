@@ -29,7 +29,7 @@ passport.use(
   
           if (!user) {
             // Create a new user if they don't exist
-            user = await User.create({
+              user = await User.create({
               googleId: profile.id,
               email: profile.emails[0].value,
               userName: profile.displayName,
