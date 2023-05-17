@@ -1,5 +1,7 @@
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
+const { default: mongoose } = require('mongoose')
+
 const Profile = require('../models/profileModel');
 
 //generate token
@@ -44,27 +46,20 @@ const signUpUser = async (req, res) =>{
     }
     }
 
-    const profile = async(req, res) =>{
-    try{
-    const {id} = req.params
-
-    // use mongoose to check id validilty in mongo db
-    if(!mongoose.isValidObjectId(id)){
-        res.status(404).json({error: 'profile not found'})
-    }
-
-    const profile = await Profile.findById(id);
-
+    //get user profile
+    const getUserProfile = async(req, res) =>{
+    const {id}= req.params
+    
+    const profile = await Profile.findOne({ user: id});
+  
     if (!profile) {
         return res.status(404).json({ error: 'Profile not found' });
       }
   
       res.status(200).json(profile);
-    } catch (error) {
-      res.status(500).json({ error: 'Error fetching profile' });
-    }
+      return
 
     }
 
 
-    module.exports = {signUpUser, loginUser,profile}
+    module.exports = {signUpUser, loginUser,getUserProfile}
