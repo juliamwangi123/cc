@@ -31,7 +31,7 @@ const signUpUser = async (req, res) =>{
         res.status(400).json({error: error.message})
     }
 }
-    //login user
+    //login userapp
     const loginUser = async (req, res) =>{
         const {email, password} =req.body
 
@@ -60,6 +60,5 @@ const signUpUser = async (req, res) =>{
       return
 
     }
-
-
+    
     module.exports = {signUpUser, loginUser,getUserProfile}
