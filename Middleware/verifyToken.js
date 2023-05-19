@@ -13,8 +13,9 @@ const requireAuth = (req, res, next) =>{
                 console.log({ err: err.message })
                 return res.status(403).json({ err: err.message });
               }
-          
-        })
+              req.decodedTokem;
+              next() 
+        }) }
+        return res.status(401).json({ error: 'No token provided' });
+};
 
-    }
-}
