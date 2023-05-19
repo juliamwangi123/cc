@@ -1,41 +1,22 @@
-const request = require('request');
 require('dotenv').config()
+const axios = require('axios')
 
 
-const accessToken = (req, res, next)=> {
-    try{
-
+const accessToken = async (req, res, next)=> {
         const url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
-        const auth = new Buffer.from(`${process.env.SAFARICOM_CONSUMER_KEY}:${process.env.SAFARICOM_CONSUMER_SECRET}`).toString('base64');
+        const auth = new Buffer.from(`${process.env.SAFARICOM_CONSUMER_KEY}:${process.env.SAFARICOM_CONSUMER_SECRET}`).toString('base64')       
 
-        request(
+        await axios.get(url , {
+            headers:
             {
-                url: url,
-                headers: {
-                    "Authorization": "Basic " + auth
-                }
-            },
-            (error, response, body) => {
-                if (error) {
-                    res.status(401).send({
-                        "message": 'Something went wrong when trying to process your payment',
-                        "error":error.message
-                    })
-                }
-                else {
-                    req.safaricom_access_token = JSON.parse(body).access_token
-                    next()
-                }
+                authorization : `Basic ${auth}`
             }
-        )
-    }catch (error) {
-
-        console.error("Access token error ", error)
-        res.status(401).send({
-            "message": 'Something went wrong when trying to process your payment',
-            "error":error.message
+        }).then((res)=>{
+            console.log(res.data)
+            next()
+        }).catch((error)=>{
+            res.status(400).json({error: error.message})
         })
-    }
 
 }
 

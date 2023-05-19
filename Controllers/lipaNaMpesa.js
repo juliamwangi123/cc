@@ -1,69 +1,48 @@
 require('dotenv').config();
-const request = require('request')
 const {getTimestamp} = require ("../Utils/timeStamp")
-const ngrok = require('ngrok')
-
+const axios = require('axios')
 // @desc initiate stk push
 // @method POST
 // @route /stkPush
 // @access public
 const initiateSTKPush = async(req, res) => {
-    try{
 
-        const {amount} = req.body
+        const phone = req.body.phone.substring(1);
+        const amount= req.body.amount
         const url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
-        const auth = "Bearer " + req.safaricom_access_token
+        // const auth = "Bearer " + req.safaricom_access_token
 
         const timestamp = getTimestamp()
         //shortcode + passkey + timestamp
         const password = new Buffer.from(process.env.BUSINESS_SHORT_CODE + process.env.PASS_KEY + timestamp).toString('base64')
-        // create callback url
-        const callback_url = await ngrok.connect(process.env.PORT);
-        const api = ngrok.getApi();
-        await api.listTunnels();
-
-
-        console.log("callback ",callback_url)
-        request(
-            {
-                url: url,
-                method: "POST",
-                headers: {
-                    "Authorization": auth
-                },
-                json: {
-                    "BusinessShortCode": process.env.BUSINESS_SHORT_CODE,
-                    "Password": password,
-                    "Timestamp": timestamp,
-                    "TransactionType": "CustomerPayBillOnline",
-                    "Amount": amount,
-                    "PartyA": phone,
-                    "PartyB": process.env.BUSINESS_SHORT_CODE,
-                    "PhoneNumber": phone,
-                    "CallBackURL": `${callback_url}/api/stkPushCallback/${Order_ID}`,
-                    "AccountReference": "Wamaitha Online Shop",
-                    "TransactionDesc": "Paid online"
-                }
-            },
-            function (e, response, body) {
-                if (e) {
-                    console.error(e)
-                    res.status(503).send({
-                        message:"Error with the stk push",
-                        error : e
-                    })
-                } else {
-                    res.status(200).json(body)
-                }
+        
+        await axios.post(url, 
+            {   
+                "BusinessShortCode": process.env.BUSINESS_SHORT_CODE,
+                "Password": password,
+                "Timestamp": timestamp,
+                "TransactionType": "CustomerPayBillOnline",
+                "Amount": amount,
+                "PartyA": phone,
+                "PartyB": process.env.BUSINESS_SHORT_CODE,
+                "PhoneNumber":`+254${phone}`,
+                "CallBackURL": `${callback_url}/api/stkPushCallback/${Order_ID}`,
+                "AccountReference": "E-shopIt",
+                "TransactionDesc": "Paid online"
+                
+           },{
+            header:{
+                Authorization: `Bearer ${token}`
             }
-        )
-    }catch (e) {
-        console.error("Error while trying to create LipaNaMpesa details",e)
-        res.status(503).send({
-            message:"Something went wrong while trying to create LipaNaMpesa details. Contact admin",
-            error : e
+           }).then((res)=>{
+            console.log(res)
+            res.status(200).json(data)
+           }).catch((error)=>{
+            res.status(400).json({error:error.message})
         })
-    }
+  
+
+       
 }
 
 module.exports = {initiateSTKPush}

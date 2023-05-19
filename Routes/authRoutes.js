@@ -1,5 +1,6 @@
 const{Router} = require('express');
 const {signUpUser, loginUser,getUserProfile} = require ('../Controllers/authControllers')
+const {requireAuth} = require('../Middleware/verifyToken')
 
 
 const router = Router()
@@ -8,6 +9,6 @@ const router = Router()
 //signup
 router.post('/signup/', signUpUser);
 router.post('/login/', loginUser);
-router.get('/profile/:id', getUserProfile)
+router.get('/profile/:id',requireAuth, getUserProfile)
 
 module.exports = router
