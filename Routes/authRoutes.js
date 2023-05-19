@@ -9,6 +9,6 @@ const router = Router()
 //signup
 router.post('/signup/', signUpUser);
 router.post('/login/', loginUser);
-router.get('/profile/:id',getUserProfile)
+router.get('/profile/:id',requireAuth, getUserProfile)
 
 module.exports = router
