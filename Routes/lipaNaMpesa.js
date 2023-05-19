@@ -9,7 +9,11 @@ const {
 
 
 
-router.route('/stkPush').post(accessToken,initiateSTKPush)
+// router.route('/stkPush').post(accessToken,initiateSTKPush)
+
+router.get('/token', (req, res)=>{
+    accessToken()
+})
 // router.route('/stkPushCallback/:Order_ID').post(stkPushCallback)
 // router.route('/confirmPayment/:CheckoutRequestID').post(accessToken,confirmPayment)
 
