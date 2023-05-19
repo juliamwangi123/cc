@@ -5,6 +5,7 @@ require('dotenv').config()
 const requireAuth = (req, res, next) =>{
     //get token from headers
     const token = req.headers.authorization;
+    console.log(token)
 
     //verify token if it exists
     if(token){
@@ -13,7 +14,7 @@ const requireAuth = (req, res, next) =>{
                 console.log({ err: err.message })
                 return res.status(403).json({ err: err.message });
               }else{
-                req.decodedToken = decodedToken
+                req.user = decodedToken
                 next() 
               }
              
