@@ -7,7 +7,6 @@ const axios = require('axios')
 const productRoutes = require('./Routes/products');
 const authRoutes = require('./Routes/authRoutes');
 const lipaNaMpesa = require('./Routes/lipaNaMpesa')
-const googleRoute = require('./Routes/googleOauth')
 const {getTimestamp} = require ("./Utils/timeStamp")
 
 
@@ -33,7 +32,7 @@ mongoose.connect(process.env.DB_URI)
 //routes
 app.use(productRoutes);
 app.use(authRoutes);
-app.use(googleRoute)
+// app.use(googleRoute)
 app.use(lipaNaMpesa)
 
 
