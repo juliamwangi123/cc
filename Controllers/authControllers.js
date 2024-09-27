@@ -48,7 +48,7 @@ const signUpUser = async (req, res) =>{
 
     //get user profile
     const getUserProfile = async(req, res) =>{
-    const {id}= req.params
+    const {id}= req.user
     
     const profile = await Profile.findOne({ user: id});
   
